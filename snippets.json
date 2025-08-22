@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Empty an array",
+    "code": "let arr = [1, 2, 3];\narr.length = 0;"
+  },
+  {
+    "title": "Check if object is empty",
+    "code": "Object.keys(obj).length === 0"
+  },
+  {
+    "title": "Debounce function",
+    "code": "function debounce(fn, delay) {\n  let timer;\n  return function(...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  }\n}"
+  },
+  {
+    "title": "Copy to clipboard",
+    "code": "navigator.clipboard.writeText('Hello World');"
+  },
+  {
+    "title": "Generate random number",
+    "code": "Math.floor(Math.random() * 100) + 1;"
+  },
+  {
+    "title": "Check if variable is array",
+    "code": "Array.isArray(myVar);"
+  }
+]

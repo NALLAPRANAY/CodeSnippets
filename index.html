@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My JS Snippets</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1e1e1e;
+      color: #dcdcdc;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #fff;
+      text-align: center;
+    }
+
+    #search {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+      background-color: #2d2d2d;
+      color: #dcdcdc;
+    }
+
+    .snippet {
+      background-color: #252526;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .snippet h3 {
+      margin-top: 0;
+      color: #61dafb;
+    }
+
+    pre {
+      background-color: #1e1e1e;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 14px;
+    }
+
+    code {
+      font-family: Consolas, monospace;
+      color: #dcdcdc;
+    }
+
+    .copy-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      background: #333;
+      padding: 5px;
+      border-radius: 4px;
+    }
+
+    .copy-icon:hover {
+      background: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 My JavaScript Snippets</h1>
+  <input type="text" id="search" placeholder="Search snippets...">
+  <div id="snippets"></div>
+
+  <script>
+    async function loadSnippets() {
+      const response = await fetch('snippets.json');
+      const snippets = await response.json();
+      displaySnippets(snippets);
+
+      document.getElementById('search').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const filtered = snippets.filter(s => s.title.toLowerCase().includes(term) || s.code.toLowerCase().includes(term));
+        displaySnippets(filtered);
+      });
+    }
+
+    function displaySnippets(snippets) {
+      const container = document.getElementById('snippets');
+      container.innerHTML = '';
+      snippets.forEach(snippet => {
+        const div = document.createElement('div');
+        div.className = 'snippet';
+        div.innerHTML = `
+          <h3>${snippet.title}</h3>
+          <pre><code>${snippet.code}</code></pre>
+          <span class="copy-icon">📋</span>
+        `;
+        div.querySelector('.copy-icon').addEventListener('click', () => {
+          navigator.clipboard.writeText(snippet.code);
+          alert('Copied!');
+        });
+        container.appendChild(div);
+      });
+    }
+
+    loadSnippets();
+  </script>
+</body>
+</html>
